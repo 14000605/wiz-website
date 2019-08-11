@@ -19,23 +19,21 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
-# deploy using docker
-Make sure you run npm install prior to this.
+# deploy at localhost:8000 using docker (Make sure you run npm install before this)
 docker-compose build && docker-compose up
-Now visit localhost:8000
 
 # Destroy using docker
 docker-compose down
 ```
 
 ## Additional Notes
-## Front-End
-### Using Vue.js
-###  Don't create any files in the ./static folder, this is where all static files are eventually collected (see vuedj/settings.py for more info)
-### We are using vue-router, see https://vuejs.org/v2/guide/routing.html
-### Source Directory: ./src (create files, modify files here)
+### Front-End
+ * Using Vue.js
+     * Don't create any files in the ./static folder, this is where all static files are eventually collected (see vuedj/settings.py for more info)
+     * We are using vue-router, see https://vuejs.org/v2/guide/routing.html
+     * Source Directory: ./src (create files, modify files here)
 
-## Back-End:
-### Using django
-### Source directory: ./app
+### Back-End:
+* Using django
+     * Source directory: ./app
 
