@@ -31,9 +31,9 @@ docker-compose down
  * Using Vue.js
      * Don't create any files in the ./static folder, this is where all static files are eventually collected (see vuedj/settings.py for more info)
      * We are using vue-router, see https://vuejs.org/v2/guide/routing.html
-     * Source Directory: ./src (create files, modify files here)
+     * Source Directory: ./cheese-wizards-webapp/src (create files, modify files here)
 
 ### Back-End:
 * Using django
-     * Source directory: ./app
+     * Source directory: ./cheese-wizards-webapp/app
 
