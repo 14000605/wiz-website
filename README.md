@@ -1,6 +1,6 @@
 # Cheese Wizards Webapp
 
-> Webapp that helps users plan out the strategies to win the cheese wizards tournament. This is for a hackathon.
+> Webapp that helps users plan out the strategies to win the cheese wizards tournament as part of the cheese wizards hackathon.
 
 ## Build setup notes for the team
 
