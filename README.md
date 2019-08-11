@@ -27,7 +27,7 @@ docker-compose down
 ```
 
 ## Additional Notes
-### Front-End
+### Front-End:
  * Using Vue.js
      * Don't create any files in the ./static folder, this is where all static files are eventually collected (see vuedj/settings.py for more info)
      * We are using vue-router, see https://vuejs.org/v2/guide/routing.html
