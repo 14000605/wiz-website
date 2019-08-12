@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <div class = "h1">{{ msg }}</div>
+    <div v-if = "errMsg" class = "alert alert-warning"><small>{{ errMsg }}</small></div>
   </div>
 </template>
 
@@ -12,19 +13,21 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
-      msg: "Login"
+      msg: "Login",
+      errMsg: null
     }
   },
   created: function () {
     // debug()
-    init()
+    onDapperWalletLogIn(this);
   }
 }
 
-async function init () {
+async function onDapperWalletLogIn (self) {
   if (typeof window.ethereum === 'undefined') {
     // Handle case where user hasn't installed Dapper.
-    return
+    self.errMsg = "oops! you don't have dapper installed"
+    return;
   }
 
   try {
