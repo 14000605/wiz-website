@@ -1,12 +1,6 @@
 <template>
   <div id="app">
-    <img class="logo" src="./assets/logo.png">
-    <br>
-    <img class="logo" src="./assets/dj.png">
-    <router-view/>
-    <p>
-      Welcome to your Django - Vue.js app!
-    </p>
+    <router-view />
   </div>
 </template>
 
@@ -17,6 +11,11 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: code saver;
+  src: url(assets/font/codesaver-regular-webfont.woff);
+}
+
 html {
   height: 100%;
 }
@@ -32,7 +31,7 @@ body {
   color: #2c3e50;
   margin-top: -100px;
   max-width: 600px;
-  font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
+  font-family: code saver, sans-serif;
   text-align: center;
 }
 
@@ -41,8 +40,4 @@ body {
   text-decoration: none;
 }
 
-.logo {
-  width: 100px;
-  height: 100px
-}
 </style>

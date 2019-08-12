@@ -1,6 +1,6 @@
 # Cheese Wizards Webapp
 
-> Webapp that helps users plan out the strategies to win the cheese wizards tournament. This is for a hackathon.
+> Webapp that helps users plan out the strategies to win the cheese wizards tournament as part of the cheese wizards hackathon.
 
 ## Build setup notes for the team
 
@@ -27,7 +27,7 @@ docker-compose down
 ```
 
 ## Additional Notes
-### Front-End
+### Front-End:
  * Using Vue.js
      * Don't create any files in the ./static folder, this is where all static files are eventually collected (see vuedj/settings.py for more info)
      * We are using vue-router, see https://vuejs.org/v2/guide/routing.html
