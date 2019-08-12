@@ -1,18 +1,13 @@
-/* eslint-disable */
 <template>
   <div id="app">
-    <img class="logo" src="./assets/logo.png" />
-    <br />
-    <img class="logo" src="./assets/dj.png" />
     <router-view />
-    <p>Welcome to your Django - Vue.js app!</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "app"
-};
+  name: 'app'
+}
 </script>
 
 <style>
@@ -45,8 +40,4 @@ body {
   text-decoration: none;
 }
 
-.logo {
-  width: 100px;
-  height: 100px;
-}
 </style>
