@@ -1,22 +1,26 @@
+/* eslint-disable */
 <template>
   <div id="app">
-    <img class="logo" src="./assets/logo.png">
-    <br>
-    <img class="logo" src="./assets/dj.png">
-    <router-view/>
-    <p>
-      Welcome to your Django - Vue.js app!
-    </p>
+    <img class="logo" src="./assets/logo.png" />
+    <br />
+    <img class="logo" src="./assets/dj.png" />
+    <router-view />
+    <p>Welcome to your Django - Vue.js app!</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
-}
+  name: "app"
+};
 </script>
 
 <style>
+@font-face {
+  font-family: code saver;
+  src: url(assets/font/codesaver-regular-webfont.woff);
+}
+
 html {
   height: 100%;
 }
@@ -32,7 +36,7 @@ body {
   color: #2c3e50;
   margin-top: -100px;
   max-width: 600px;
-  font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
+  font-family: code saver, sans-serif;
   text-align: center;
 }
 
@@ -43,6 +47,6 @@ body {
 
 .logo {
   width: 100px;
-  height: 100px
+  height: 100px;
 }
 </style>
