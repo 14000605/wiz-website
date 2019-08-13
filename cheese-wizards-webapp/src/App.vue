@@ -6,8 +6,8 @@
 
 <script>
 export default {
-  name: 'app'
-}
+  name: "app"
+};
 </script>
 
 <style>
@@ -16,8 +16,7 @@ export default {
   src: url(assets/font/codesaver-regular-webfont.woff);
 }
 
-#app { 
+#app {
   font-family: code saver, sans-serif;
 }
-
 </style>
