@@ -1,6 +1,17 @@
 <template>
   <div class="hello">
-    <div class = "h1">{{ msg }}</div>
+    <div class="wiz-login-card">
+      <b-card bg-variant="dark" text-variant="white" title="Login">
+        <b-card-text
+          class="d-flex justify-content-center"
+        >With supporting text below as a natural lead-in to additional content.</b-card-text>
+        <b-button class="d-flex justify-content-center" href="#" variant="primary">Login</b-button>
+      </b-card>
+    </div>
+
+    <div class="wiz-login-background">
+      <img class="wiz-login-background" src="../assets/cheese.png" />
+    </div>
   </div>
 </template>
 
@@ -13,25 +24,25 @@ export default {
       // preserves its current state and we are modifying
       // its initial state.
       msg: "Login"
-    }
+    };
   },
-  created: function () {
+  created: function() {
     // debug()
-    init()
+    init();
   }
-}
+};
 
-async function init () {
-  if (typeof window.ethereum === 'undefined') {
+async function init() {
+  if (typeof window.ethereum === "undefined") {
     // Handle case where user hasn't installed Dapper.
-    return
+    return;
   }
 
   try {
     // If a user is logged in to Dapper and has previously approved the dapp,
     // `ethereum.enable` will return the result of `eth_accounts`.
-    const accounts = await window.ethereum.enable()
-    console.log(accounts)
+    const accounts = await window.ethereum.enable();
+    console.log(accounts);
   } catch (error) {
     // Handle error. If the user rejects the request for access, then
   }
@@ -63,4 +74,21 @@ async function init () {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.wiz-login-background {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 35vh;
+}
+img {
+  object-fit: contain;
+}
+
+.wiz-login-card {
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
+}
 </style>
