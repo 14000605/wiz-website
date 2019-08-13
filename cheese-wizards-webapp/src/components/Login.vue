@@ -38,7 +38,7 @@ export default {
          'x-email' : xEmail,
          'x-api-token' : apiToken,
          'Content-Type' : contentType
-       }
+       };
 
        var queryParams = this.encodeJsonToParams(params);
        var baseUrl = "https://cheezewizards.alchemyapi.io/wizards?";
