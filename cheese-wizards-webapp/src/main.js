@@ -5,11 +5,17 @@ import App from './App'
 import router from './router'
 
 Vue.config.productionTip = false
+import Popper from 'popper.js'
+// import bootstrap from 'bootstrap'
+
+// Vue.use(bootstrap)
+
+
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App, Popper }
 })
