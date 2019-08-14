@@ -1,7 +1,9 @@
 <template>
   <div class="hello">
-    <div v-if="errMsg" class="alert alert-warning">
-      <small>{{ errMsg }}</small>
+    <div class = "container">
+      <b-alert :show = "errMsg" variant = "warning" dismissible fade>
+        <small>{{ errMsg }}</small>
+      </b-alert>
     </div>
     <div class="wiz-login-card">
       <b-card bg-variant="dark" text-variant="white" title="Login">
@@ -38,29 +40,12 @@ export default {
     },
     // Geeneral purpose function to fetch wizard data based on given params
     getWizards: function(params) {
-      var xEmail = "khalili@sfu.ca";
-      var apiToken = "Nf7zvG9vaYOW6cx1ZXXT0_9DPr1srXzZ7phJ3il7";
-      var contentType = "application/json";
-
-      var headerObj = {
-        "x-email": xEmail,
-        "x-api-token": apiToken,
-        "Content-Type": contentType
-      };
-
-      var headerObj = {
-         'x-email' : xEmail,
-         'x-api-token' : apiToken,
-         'Content-Type' : contentType
-       };
       var queryParams = this.encodeJsonToParams(params);
-      var baseUrl = "https://cheezewizards.alchemyapi.io/wizards?";
-      var requestUrl = baseUrl + queryParams;
+      var requestUrl = "/wizards?"+ queryParams;
 
       $.ajax({
         url: requestUrl,
         method: "get",
-        headers: headerObj,
         success: data => {
           // Listen for this event to retrieve wizards data
           this.$emit("logged-in", data);
@@ -71,6 +56,9 @@ export default {
         }
       });
     }
+  },
+  created: function(){
+    onDapperWalletLogIn(this);
   }
 };
 

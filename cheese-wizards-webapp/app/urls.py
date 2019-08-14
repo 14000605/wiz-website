@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from . import views
+from django.urls import path
 
 urlpatterns = [
-    url('', views.index, name = "home"),
+    path('', views.index, name = "home"),
+    path('wizards', views.get_wizards, name = "get_wizards"),
 ]

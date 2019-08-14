@@ -6,8 +6,13 @@ import router from './router'
 
 Vue.config.productionTip = false
 import Popper from 'popper.js'
-// import bootstrap from 'bootstrap'
+import BootstrapVue from 'bootstrap-vue'
 
+Vue.use(BootstrapVue)
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+// import bootstrap from 'bootstrap'
 // Vue.use(bootstrap)
 
 
@@ -19,3 +24,4 @@ new Vue({
   template: '<App/>',
   components: { App, Popper }
 })
+
