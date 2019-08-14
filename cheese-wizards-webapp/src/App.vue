@@ -13,7 +13,7 @@ export default {
 <style>
 @font-face {
   font-family: code saver;
-  src: url(assets/font/codesaver-regular-webfont.woff);
+  src: url(/staticfiles/font/codesaver-regular-webfont.woff);
 }
 
 #app {

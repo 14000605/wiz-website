@@ -3,7 +3,7 @@
     <div class="h1">{{ msg }}</div>
     <login></login>
     <div class="wiz-login-background">
-      <img class="wiz-login-background" src="../assets/cheese.png" />
+      <img class="wiz-login-background" src="/staticfiles/img/Cheese.png" />
     </div>
   </div>
 </template>
