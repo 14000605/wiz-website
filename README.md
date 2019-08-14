@@ -28,6 +28,9 @@ docker-compose build && docker-compose up
 
 # Destroy using docker
 docker-compose down
+
+# Quick deploy front/back end
+sh deploy.sh
 ```
 
 ## Additional Notes
@@ -43,4 +46,5 @@ docker-compose down
 * Using django
      * Source directory: ./cheese-wizards-webapp/app
      * Settings file can be found in ./cheese-wizards-webapp/vuedj
+     * If you used pip to install any python/django dependencies, please include it in requirements.txt
 
