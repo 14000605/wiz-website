@@ -10,7 +10,8 @@ COPY requirements.txt requirements.txt
 RUN curl https://bootstrap.pypa.io/get-pip.py | python3 \
   && rm -rf /var/cache/apk/* \
   && pip3 install --upgrade pip \
-  && pip3 install -r requirements.txt
+  && pip3 install -r requirements.txt \
+  && pip install django-cors-headers
 
 # Run the following commands for deployment
 COPY package.json package.json
