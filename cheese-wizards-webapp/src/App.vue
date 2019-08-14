@@ -19,5 +19,27 @@ export default {
 
 #app {
   font-family: code saver, sans-serif;
+  width: 100%;
+  height: 100%;
+  background-image: url(/staticfiles/img/dark_cheese.png);
+  background-repeat: no-repeat;
+  background-size: 70rem auto;
+  background-position: bottom;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  height: 100%;
+  background-image: url(/staticfiles/img/dark_melt.png);
+  background-repeat: repeat-x;
+  background-size: 70rem auto;
+  background-position: top;
 }
 </style>
