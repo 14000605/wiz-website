@@ -1,17 +1,16 @@
 <template>
-  <div class="hello">
-    <div class="h1">{{ msg }}</div>
-    <login></login>
-    <div class="wiz-login-background">
-      <img class="wiz-login-background" src="../assets/cheese.png" />
+  <div class="page1">
+    <div class="container">
+      <div class="wiz-main-title">{{ title }}</div>
     </div>
+    <login></login>
   </div>
 </template>
 
 <script>
-import Login from "./Login.vue"
+import Login from "./Login.vue";
 export default {
-  name : "main",
+  name: "main",
   components: {
     Login
   },
@@ -21,23 +20,30 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
-      msg: "Login"
+      title: "Strategy Simulator"
     };
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang = "scss" scoped>
-.wiz-login-background {
-  position: fixed;
-  bottom: 0px;
-  right: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 35vh;
+<style scoped>
+.page1 {
+  margin-top: 100px;
 }
-img {
-  object-fit: contain;
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.wiz-main-title {
+  color: white;
+  font-size: 50px;
+  font-family: exocet;
+  text-transform: uppercase;
+  letter-spacing: -0.25rem;
+  line-height: 1.1;
+  text-align: center;
 }
 </style>

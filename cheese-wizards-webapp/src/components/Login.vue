@@ -1,15 +1,42 @@
 <template>
-  <div class="hello">
+  <div>
     <div v-if="errMsg" class="alert alert-warning">
       <small>{{ errMsg }}</small>
     </div>
-    <div class="wiz-login-card">
-      <b-card bg-variant="dark" text-variant="white" title="Login">
-        <b-card-text
-          class="d-flex justify-content-center"
-        >With supporting text below as a natural lead-in to additional content.</b-card-text>
-        <b-button class="d-flex justify-content-center" href="#" variant="primary">Login</b-button>
-      </b-card>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+          <div class="card card-signin my-5">
+            <div class="card-body">
+              <h5 class="card-title text-center">Sign In</h5>
+              <form class="form-signin">
+                <div class="form-label-group">
+                  <input
+                    id="inputAddress"
+                    class="form-control"
+                    placeholder="Wallet address"
+                    required
+                    autofocus
+                  />
+                </div>
+                <br />
+
+                <button class="btn btn-lg btn-block text-uppercase" type="submit">Let's Go!!</button>
+                <hr class="my-4" />
+                <button
+                  class="btn btn-lg btn-google btn-block text-uppercase"
+                  type="submit"
+                >Use Dapper</button>
+                <button
+                  class="btn btn-lg btn-facebook btn-block text-uppercase"
+                  type="submit"
+                >Use Metamask</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -49,10 +76,10 @@ export default {
       };
 
       var headerObj = {
-         'x-email' : xEmail,
-         'x-api-token' : apiToken,
-         'Content-Type' : contentType
-       };
+        "x-email": xEmail,
+        "x-api-token": apiToken,
+        "Content-Type": contentType
+      };
       var queryParams = this.encodeJsonToParams(params);
       var baseUrl = "https://cheezewizards.alchemyapi.io/wizards?";
       var requestUrl = baseUrl + queryParams;
@@ -99,10 +126,17 @@ async function onDapperWalletLogIn(self) {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang = "scss" scoped>
+<style scoped>
+@font-face {
+  font-family: exocet;
+  src: url(../assets/font/exocet.ttf);
+}
+
 .wiz-login-card {
-  display: flex;
-  justify-content: center;
   margin-top: 200px;
+}
+
+.wiz-login-card-title {
+  font-family: exocet, sans-serif;
 }
 </style>
