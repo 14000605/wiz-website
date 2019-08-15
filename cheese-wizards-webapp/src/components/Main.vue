@@ -35,6 +35,12 @@ export default {
 
 .page1 {
   margin-top: 100px;
+  width: 100%;
+  height: 100%;
+  background-image: url(/staticfiles/img/dark_cheese.png);
+  background-repeat: no-repeat;
+  background-size: 70rem auto;
+  background-position: bottom;
 }
 .container {
   padding-right: 15px;
