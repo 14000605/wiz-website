@@ -31,7 +31,7 @@ export default {
       $.ajax({
         url: requestUrl,
         method: "get",
-        success: data => {
+        success: (data) => {
           // TODO: do something with wizards data
           console.log(data);
         },
@@ -49,6 +49,8 @@ export default {
       // If nothing found in local storage, then redirect to main page
       if (address == undefined) {
         this.$router.push({name : "Main"});
+        return;
+        
       } else {
         this.userAddress = address;
         console.log("address retreived from local storage" + address);
@@ -62,7 +64,6 @@ export default {
     this.getWizards({ owner: this.userAddress });
   }
 };
-console.log("Scripty");
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
