@@ -46,7 +46,22 @@ export default {
     }
   },
   created: function(){
-    this.userAddress = this.$route.params.address;
+    var address = this.$route.params.address;
+    // If user address is undefined, we try to retrieve it from local storage
+    if (address == undefined) {
+      var address = localStorage.getItem('address');
+      // If nothing found in local storage, then redirect to main page
+      if (address == undefined) {
+        this.$router.push({name : "Main"});
+      } else {
+        this.userAddress = address;
+        console.log("address retreived from local storage" + address);
+      }
+    } else {
+      // Store user address in local storage for page refreshes
+      this.userAddress = address;
+      localStorage.setItem('address', this.userAddress);
+    }
     // Example of how to get wizards
     this.getWizards({'owner' : this.userAddress});
   }
