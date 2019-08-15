@@ -30,8 +30,7 @@
                   :disabled="!userAddress"
                 >Let's Go!!</b-button>
                 <hr class="my-4" />
-                <b-button class="w-100 mb-2" @click="useDapperWallet">Dapper</b-button>
-                <b-button class="w-100 mb-2">Use Metamask</b-button>
+                <b-button class="w-100 mb-2" @click="useWallet">Use Wallet</b-button>
               </form>
             </div>
           </div>
@@ -72,22 +71,22 @@ export default {
         params: { address: this.userAddress }
       });
     },
-    useDapperWallet: function() {
-      this.retrieveDapperWalletAddress(this);
+    useWallet: function() {
+      this.retrieveWalletAddress(this);
     },
-    retrieveDapperWalletAddress: async self => {
+    retrieveWalletAddress: async self => {
       if (typeof window.ethereum === "undefined") {
-        // Handle case where user hasn't installed Dapper.
-        self.errMsg = "oops! it seems like you don't have dapper installed";
+        // No ethereum wallets detected.
+        self.errMsg = "oops! we could not detect any ethereum wallets";
         return;
       }
       try {
-        // If a user is logged in to Dapper and has previously approved the dapp,
         // `ethereum.enable` will return the result of `eth_accounts`.
         const accounts = await window.ethereum.enable();
         const ownerAddress = accounts[0];
         console.log("found owner address: " + ownerAddress);
         self.userAddress = ownerAddress;
+        
       } catch (error) {
         // Handle error. If the user rejects the request for access, then
         console.log("user rejected permission to access dapper wallet");
