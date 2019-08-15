@@ -94,18 +94,6 @@ export default {
         console.log(error);
       }
     }
-  },
-  created: function() {
-    $.ajax({
-      url: "/wizards?affinity=2",
-      method: "get",
-      success: function(data) {
-        console.log(data);
-      },
-      error: function(err) {
-        console.log(err);
-      }
-    });
   }
 };
 </script>
