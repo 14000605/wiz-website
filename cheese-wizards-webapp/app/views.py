@@ -18,17 +18,8 @@ def get_wizards(request):
          'x-api-token' : api_Token
     }
 
-    owner = request.GET.get("owner", None)
-    affinity = request.GET.get("affinity", None)
-    power = request.GET.get("power", None)
-
-    query_dict = {
-        'owner' : owner,
-        'affinity' : affinity,
-        'power' : power
-    }
-
-    query_str = construct_query_from_dict(query_dict)
+    params = request.GET
+    query_str = construct_query_from_dict(params)
 
     get_wizards_url = BASE_ENDPOINT_URL + "wizards?" + query_str
     res = requests.get(get_wizards_url, headers = headers)
