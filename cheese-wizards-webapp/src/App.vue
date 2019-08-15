@@ -1,11 +1,10 @@
 <template>
-  <div id="app">
+  <div class="app">
     <router-view />
   </div>
 </template>
 
 <script>
-
 export default {
   name: "app"
 };
@@ -17,14 +16,10 @@ export default {
   src: url(/staticfiles/font/codesaver-regular-webfont.woff);
 }
 
-#app {
+.app {
   font-family: code saver, sans-serif;
   width: 100%;
   height: 100%;
-  background-image: url(/staticfiles/img/dark_cheese.png);
-  background-repeat: no-repeat;
-  background-size: 70rem auto;
-  background-position: bottom;
 }
 
 html {

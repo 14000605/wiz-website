@@ -16,17 +16,16 @@ export default {
   },
   data() {
     return {
-      // note: changing this line won't causes changes
-      // with hot-reload because the reloaded component
-      // preserves its current state and we are modifying
-      // its initial state.
       title: "Strategy Simulator"
     };
+  },
+  created: function() {
+    // Remove previous address (if exists) from local storage
+    localStorage.removeItem('address');
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @font-face {
   font-family: exocet;
@@ -35,6 +34,12 @@ export default {
 
 .page1 {
   margin-top: 100px;
+  width: 100%;
+  height: 100%;
+  background-image: url(/staticfiles/img/dark_cheese.png);
+  background-repeat: no-repeat;
+  background-size: 70rem auto;
+  background-position: bottom;
 }
 .container {
   padding-right: 15px;

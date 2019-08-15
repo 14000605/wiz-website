@@ -1,7 +1,7 @@
 <template>
   <div class="login">
-    <div class = "container">
-      <b-alert :show = "errMsg" variant = "warning" dismissible fade>
+    <div class="container">
+      <b-alert :show="errMsg" variant="warning" dismissible fade>
         <small>{{ errMsg }}</small>
       </b-alert>
     </div>
@@ -13,7 +13,8 @@
               <h5 class="card-title text-center">Sign In</h5>
               <form class="form-signin">
                 <div class="form-label-group container">
-                  <input v-model = "userAddress"
+                  <input
+                    v-model="userAddress"
                     id="inputAddress"
                     class="form-control"
                     placeholder="Wallet address"
@@ -22,10 +23,15 @@
                   />
                 </div>
                 <br />
-                <b-button variant = "primary" class = "w-100" @click="onGoButtonClicked" :disabled = "!userAddress">Let's Go!!</b-button>
+                <b-button
+                  variant="primary"
+                  class="w-100"
+                  @click="onGoButtonClicked"
+                  :disabled="!userAddress"
+                >Let's Go!!</b-button>
                 <hr class="my-4" />
-                <b-button variant = "primary" class = "w-100 mb-2" @click="useDapperWallet">Use Dapper</b-button>
-                <b-button variant = "primary" class = "w-100 mb-2">Use Metamask</b-button>
+                <b-button class="w-100 mb-2" @click="useDapperWallet">Dapper</b-button>
+                <b-button class="w-100 mb-2">Use Metamask</b-button>
               </form>
             </div>
           </div>
@@ -44,29 +50,32 @@ export default {
       // preserves its current state and we are modifying
       // its initial state.
       errMsg: null,
-      userAddress : null
+      userAddress: null
     };
   },
   methods: {
-    isAddressValid: function(){
+    isAddressValid: function() {
       // try {
       //   const address = web3.utils.toChecksumAddress(address);
       //   return address;
-      // } catch(e) { 
+      // } catch(e) {
       //   return e.message;
       // }
       var address = this.userAddress;
-      return (address != null || address != "");
+      return address != null || address != "";
     },
     onGoButtonClicked: function() {
       // this.validateEthereumAddress(this.userAddress);
       // We still need to validate owner address
-      this.$router.push({name: 'Progress', params : {address : this.userAddress}});
+      this.$router.push({
+        name: "Progress",
+        params: { address: this.userAddress }
+      });
     },
-    useDapperWallet : function(){
+    useDapperWallet: function() {
       this.retrieveDapperWalletAddress(this);
     },
-    retrieveDapperWalletAddress: async (self)=> {
+    retrieveDapperWalletAddress: async self => {
       if (typeof window.ethereum === "undefined") {
         // Handle case where user hasn't installed Dapper.
         self.errMsg = "oops! it seems like you don't have dapper installed";
@@ -79,17 +88,26 @@ export default {
         const ownerAddress = accounts[0];
         console.log("found owner address: " + ownerAddress);
         self.userAddress = ownerAddress;
-    
       } catch (error) {
         // Handle error. If the user rejects the request for access, then
         console.log("user rejected permission to access dapper wallet");
         console.log(error);
       }
     }
+  },
+  created: function() {
+    $.ajax({
+      url: "/wizards?affinity=2",
+      method: "get",
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
   }
 };
-
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

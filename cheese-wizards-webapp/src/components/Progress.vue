@@ -1,19 +1,15 @@
 <template>
-  <div id = "progress">
-    
-  </div>
+  <div id="progress"></div>
 </template>
 
 <script>
 import Login from "./Login.vue";
 export default {
   name: "progress",
-  components: {
-   
-  },
+  components: {},
   data() {
     return {
-      userAddress : null
+      userAddress: null
     };
   },
   methods: {
@@ -26,16 +22,16 @@ export default {
         urlQuery += param + "=" + params[param];
       }
       return urlQuery;
-     },
+    },
     // Geeneral purpose function to fetch wizard data based on given params
     getWizards: function(params) {
       var queryParams = this.encodeJsonToParams(params);
-      var requestUrl = "/wizards?"+ queryParams;
+      var requestUrl = "/wizards?" + queryParams;
 
       $.ajax({
         url: requestUrl,
         method: "get",
-        success: (data) => {
+        success: data => {
           // TODO: do something with wizards data
           console.log(data);
         },
@@ -63,9 +59,10 @@ export default {
       localStorage.setItem('address', this.userAddress);
     }
     // Example of how to get wizards
-    this.getWizards({'owner' : this.userAddress});
+    this.getWizards({ owner: this.userAddress });
   }
 };
+console.log("Scripty");
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -74,5 +71,4 @@ export default {
   font-family: exocet;
   src: url(/staticfiles/font/exocet.ttf);
 }
-
 </style>
