@@ -1,12 +1,14 @@
 <template>
-  <div id="progress"></div>
+  <div id="progress">
+    <WizardSideBar></WizardSideBar>
+  </div>
 </template>
 
 <script>
-import Login from "./Login.vue";
+import WizardSideBar from './WizardSideBar'
 export default {
   name: "progress",
-  components: {},
+  components: { WizardSideBar },
   data() {
     return {
       userAddress: null
@@ -50,7 +52,7 @@ export default {
       if (address == undefined) {
         this.$router.push({name : "Main"});
         return;
-        
+
       } else {
         this.userAddress = address;
         console.log("address retreived from local storage" + address);
