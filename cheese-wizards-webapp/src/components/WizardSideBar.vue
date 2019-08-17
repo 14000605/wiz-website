@@ -4,22 +4,108 @@
     <div id = "wizard-content">
       <div class = "h5" id = "sidebar-title">Wizards</div>
       <hr/>
-      <div id = "wizard-blocks">
+      <div class = "wizard-blocks pointer-cursor">
+        <div v-for = "img in wizardImages" :key = "img" style = "margin-bottom: 1em;">
+          <img class = "wizard-img" :src = "img" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+var wizardNames = [
+  "wizard_angry",
+   "wizard_angry_smile",
+   "wizard_sad",
+   "wizard_happy"
+]
+
 export default {
   name: "wizard-sidebar",
+  props: {
+    userAddress: String
+  },
   data: function(){
     return{
-
+      wizards: [],
+      wizardImages: []
     };
   },
   methods: {
-   
+   resolveAffinity: function(affinity) {
+     switch (affinity) {
+       case 0:
+         return "default";
+         break;
+       case 1:
+         return "neutral";
+         break;
+       case 2:
+         return "fire";
+         break;
+       case 3:
+         return "wind";
+         break;
+       case 4:
+         return "water";
+         break;
+       default:
+         return "default";
+         break;
+     }
+   },
+   getWizardImages: function() {
+     var base_img_url = "/staticfiles/img/wizards/";
+     var names = wizardNames;
+
+     for (var i = 0; i < this.wizards.length; i++) {
+       var randomIndex = Math.floor(Math.random() * (names.length - 1));
+       var affinity = this.resolveAffinity(this.wizards[i].affinity);
+
+       var filename = names[randomIndex] + ".png";
+       var filepath = base_img_url + affinity + "/" + filename;
+       console.log(filepath);
+
+       this.wizardImages.push(filepath);
+     }
+   },
+   encodeJsonToParams: function(params) {
+      var urlQuery = "";
+      for (var param in params) {
+        if (urlQuery != "") {
+          urlQuery += "&";
+        }
+        urlQuery += param + "=" + params[param];
+      }
+      return urlQuery;
+    },
+    // Geeneral purpose function to fetch wizard data based on given params
+    fetchAndRenderWizards: function(params) {
+      var queryParams = this.encodeJsonToParams(params);
+      var requestUrl = "/wizards?" + queryParams;
+
+      $.ajax({
+        url: requestUrl,
+        method: "get",
+        success: (data) => {
+          // TODO: do something with wizards data
+          var wizards = data.wizards;
+          for (var i = 0; i < wizards.length; i++) {
+            this.wizards.push(wizards[i]);
+          }
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      }).done(()=>{
+        this.getWizardImages();
+      });
+    }
+  },
+  created: function() {
+    this.fetchAndRenderWizards({'owner' : this.userAddress});
+
   }
 };
 </script>
@@ -38,8 +124,9 @@ export default {
 
 #wizard-sidebar {
   height: 100vh;
+  overflow-y: scroll;
   width: 175px;
-  background-color: #1a1818;
+  background-color: #2d2d2d;
   z-index: 100;
   border-right: 1px solid rgba(250, 250, 250, 0.5);
 }
@@ -68,11 +155,22 @@ hr {
    opacity: 0.7;
 }
 
-#wizard-blocks {
+.wizard-img {
+  width : 70%;
+}
+.wizard-blocks {
   height: 100px;
-  margin: 0.3em;
-  background-color: #262625;
-  border: 1px solid rgba(250, 250, 250, 0.2);
+  width: 100px;
+  margin: 0 auto;
+  transition: transform .6s;
+} 
+
+.wizard-blocks :hover {
+  transform: scale(1.1);
+}
+
+.pointer-cursor {
+  cursor: pointer;
 }
 
 

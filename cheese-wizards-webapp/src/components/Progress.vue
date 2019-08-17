@@ -1,6 +1,6 @@
 <template>
   <div id="progress">
-    <WizardSideBar></WizardSideBar>
+    <WizardSideBar :userAddress = "userAddress"></WizardSideBar>
   </div>
 </template>
 
@@ -11,37 +11,9 @@ export default {
   components: { WizardSideBar },
   data() {
     return {
-      userAddress: null
+      userAddress: null,
+      wizards: []
     };
-  },
-  methods: {
-    encodeJsonToParams: function(params) {
-      var urlQuery = "";
-      for (var param in params) {
-        if (urlQuery != "") {
-          urlQuery += "&";
-        }
-        urlQuery += param + "=" + params[param];
-      }
-      return urlQuery;
-    },
-    // Geeneral purpose function to fetch wizard data based on given params
-    getWizards: function(params) {
-      var queryParams = this.encodeJsonToParams(params);
-      var requestUrl = "/wizards?" + queryParams;
-
-      $.ajax({
-        url: requestUrl,
-        method: "get",
-        success: (data) => {
-          // TODO: do something with wizards data
-          console.log(data);
-        },
-        error: function(err) {
-          console.log(err);
-        }
-      });
-    }
   },
   created: function(){
     var address = this.$route.params.address;
@@ -62,8 +34,6 @@ export default {
       this.userAddress = address;
       localStorage.setItem('address', this.userAddress);
     }
-    // Example of how to get wizards
-    this.getWizards({ owner: this.userAddress });
   }
 };
 </script>
