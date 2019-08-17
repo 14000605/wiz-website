@@ -56,16 +56,23 @@ export default {
      }
    },
    getWizardImages: function() {
-     var base_img_url = "/staticfiles/img/wizards/";
+     var baseImgUrl = "/staticfiles/img/wizards/";
      var names = wizardNames;
 
      for (var i = 0; i < this.wizards.length; i++) {
-       var randomIndex = Math.floor(Math.random() * (names.length - 1));
-       var affinity = this.resolveAffinity(this.wizards[i].affinity);
+       var filepath = "";
+       var filename = "";
+       var alive = this.wizards.isAlive;
+       if (alive != undefined && alive == false) {
+         filename = "wizard_dead.png";
+         filepath = baseImgUrl + "default/" + filename
+       } else if (alive == true || alive == undefined) {
+         var randomIndex = Math.floor(Math.random() * (names.length - 1));
+         var affinity = this.resolveAffinity(this.wizards[i].affinity);
 
-       var filename = names[randomIndex] + ".png";
-       var filepath = base_img_url + affinity + "/" + filename;
-       console.log(filepath);
+         filename = names[randomIndex] + ".png";
+         filepath = baseImgUrl + affinity + "/" + filename;
+       }
 
        this.wizardImages.push(filepath);
      }
