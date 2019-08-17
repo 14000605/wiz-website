@@ -8,6 +8,9 @@
         <div v-if = "isLoading" id = "spinner" class = "text-center">
           <b-spinner variant="secondary" label="Spinning"></b-spinner>
         </div>
+        <div id = "empty-state" v-if = "wizardImages.length <= 0 && !isLoading" class = "text-center">
+          <small>No Wizards Owned</small>
+        </div>
         <div class = "wizard-blocks pointer-cursor">
           <div v-for = "img in wizardImages" :key = "img" style = "margin-bottom: 1em;">
             <img class = "wizard-img" :src = "img" />
@@ -192,6 +195,11 @@ hr {
 
 #spinner {
   margin-top: 55%;
+}
+
+#empty-state {
+  margin-top: 80%;
+  color: #959798;
 }
 
 .wizard-blocks :hover {
