@@ -2,17 +2,17 @@
   <div id = "wizard-sidebar">
     <div id = "cheese-top"></div>
     <div id = "sidebar-content">
-      <div id = "spinner" v-if = "isLoading" class = "text-center">
-        <b-spinner variant="primary" label="Spinning"></b-spinner>
-      </div>
       <div class = "h5" id = "sidebar-title">Wizards</div>
       <hr/>
       <div id = "wizard-content">
         <div class = "wizard-blocks pointer-cursor">
-        <div v-for = "img in wizardImages" :key = "img" style = "margin-bottom: 1em;">
-          <img class = "wizard-img" :src = "img" />
+          <div v-for = "img in wizardImages" :key = "img" style = "margin-bottom: 1em;">
+            <img class = "wizard-img" :src = "img" />
+          </div>
         </div>
       </div>
+      <div id = "spinner" class = "text-center">
+        <b-spinner variant="primary" label="Spinning"></b-spinner>
       </div>
     </div>
   </div>
