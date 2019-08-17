@@ -5,14 +5,14 @@
       <div class = "h5" id = "sidebar-title">Wizards</div>
       <hr/>
       <div id = "wizard-content">
+        <div v-if = "isLoading" id = "spinner" class = "text-center">
+          <b-spinner variant="secondary" label="Spinning"></b-spinner>
+        </div>
         <div class = "wizard-blocks pointer-cursor">
           <div v-for = "img in wizardImages" :key = "img" style = "margin-bottom: 1em;">
             <img class = "wizard-img" :src = "img" />
           </div>
         </div>
-      </div>
-      <div id = "spinner" class = "text-center">
-        <b-spinner variant="primary" label="Spinning"></b-spinner>
       </div>
     </div>
   </div>
@@ -114,7 +114,7 @@ export default {
         }
       }).done(()=>{
         this.getWizardImages();
-        //this.isLoading = false;
+        this.isLoading = false;
       });
     }
   },
@@ -188,6 +188,10 @@ hr {
   background-color: rgba(0, 0, 0, 0.2);
   text-align: center;
   padding-top: 1em;
+}
+
+#spinner {
+  margin-top: 55%;
 }
 
 .wizard-blocks :hover {
