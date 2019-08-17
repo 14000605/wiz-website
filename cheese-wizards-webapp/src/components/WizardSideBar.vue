@@ -1,13 +1,18 @@
 <template>
   <div id = "wizard-sidebar">
     <div id = "cheese-top"></div>
-    <div id = "wizard-content">
+    <div id = "sidebar-content">
+      <div id = "spinner" v-if = "isLoading" class = "text-center">
+        <b-spinner variant="primary" label="Spinning"></b-spinner>
+      </div>
       <div class = "h5" id = "sidebar-title">Wizards</div>
       <hr/>
-      <div class = "wizard-blocks pointer-cursor">
+      <div id = "wizard-content">
+        <div class = "wizard-blocks pointer-cursor">
         <div v-for = "img in wizardImages" :key = "img" style = "margin-bottom: 1em;">
           <img class = "wizard-img" :src = "img" />
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -29,7 +34,8 @@ export default {
   data: function(){
     return{
       wizards: [],
-      wizardImages: []
+      wizardImages: [],
+      isLoading: true
     };
   },
   methods: {
@@ -63,6 +69,7 @@ export default {
        var filepath = "";
        var filename = "";
        var alive = this.wizards.isAlive;
+
        if (alive != undefined && alive == false) {
          filename = "wizard_dead.png";
          filepath = baseImgUrl + "default/" + filename
@@ -107,6 +114,7 @@ export default {
         }
       }).done(()=>{
         this.getWizardImages();
+        //this.isLoading = false;
       });
     }
   },
@@ -146,7 +154,7 @@ export default {
   background-image: url(/staticfiles/img/cheese_top.png);
 }
 
-#wizard-content {
+#sidebar-content {
   margin-left: 0.5em;
   margin-right: 0.5em;
 }
@@ -171,6 +179,16 @@ hr {
   margin: 0 auto;
   transition: transform .6s;
 } 
+
+#wizard-content {
+  overflow-y: scroll;
+  height: 50vh;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  background-color: rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding-top: 1em;
+}
 
 .wizard-blocks :hover {
   transform: scale(1.1);
