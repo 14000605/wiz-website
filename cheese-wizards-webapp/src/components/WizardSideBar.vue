@@ -260,9 +260,9 @@ export default {
 
 #solid-cheese-top {
   margin-top: 1em;
-  height: 27px;
+  height: 24px;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-image: url(/staticfiles/img/cheese_custom_top.png);
 }
 
