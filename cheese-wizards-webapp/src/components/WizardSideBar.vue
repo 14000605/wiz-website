@@ -46,24 +46,16 @@ export default {
   methods: {
    resolveAffinity: function(affinity) {
      switch (affinity) {
-       case 0:
-         return "default";
-         break;
        case 1:
          return "neutral";
-         break;
        case 2:
          return "fire";
-         break;
        case 3:
          return "wind";
-         break;
        case 4:
          return "water";
-         break;
        default:
          return "default";
-         break;
      }
    },
    getWizardImages: function() {
@@ -186,8 +178,8 @@ export default {
 #wizard-content {
   overflow-y: scroll;
   height: 50vh;
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
+  border-top: 1px solid #9c9c9c;
+  border-bottom: 1px solid #9c9c9c;
   background-color: rgba(0, 0, 0, 0.2);
   text-align: center;
   padding-top: 1em;
