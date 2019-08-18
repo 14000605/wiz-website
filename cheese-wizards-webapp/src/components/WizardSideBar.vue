@@ -12,13 +12,49 @@
           <small>No Wizards Owned</small>
         </div>
         <div class = "wizard-icon-wrapper" v-for = "img in wizardImages" :key = "img">
-          <div class = "wizard-blocks pointer-cursor" @click="onWizardIconClicked(img.id)">
+          <div class = "wizard-blocks pointer-cursor" @click="onWizardIconClicked(img)">
             <div style = "margin-bottom: 1em;">
               <img class = "wizard-img" :src = "img.src" />
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <!-- Info modal to show when a wizard icon is clicked -->
+    <div id = "info-modal">
+      <b-modal
+        v-model="showModal"
+        body-bg-variant = "light"
+        body-text-variant = "dark"
+        :header-class = "modalHeaderClass"
+        :body-class = "modalBodyClass"
+        hide-footer = "true"
+        size = "sm"
+      >
+        <template slot = "modal-header">
+          <!--Header texture-->
+          <div id = "modal-cheese-melt"></div>
+        </template>
+        <template slot = "default">
+          <!--Modal body content-->
+          <b-container style = "font-family: code saver;">
+            <b-row>
+              <b-col><img :src = "modalInfo.src" width = "50px" height = "50px"/></b-col>
+              <b-col class = "pt-2"><small>{{ getAffinityText(modalInfo.affinity) }}</small></b-col>
+            </b-row>
+            <hr />
+            <b-row>
+              <b-col><h6>Current Power</h6></b-col>
+              <b-col><small class = "text-success">{{ modalInfo.power }}</small>
+            </b-row>
+            <hr />
+            <b-row>
+              <b-col><h6>Initial Power</h6></b-col>
+              <b-col><small class = "text-success">{{ modalInfo.initialPower }}</small>
+            </b-row>
+          </b-container>
+        </template>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -40,7 +76,16 @@ export default {
     return{
       wizards: [],
       wizardImages: [],
-      isLoading: true
+      isLoading: true,
+      showModal: false,
+      modalInfo: {
+        src: null,
+        affinity: null,
+        power: null,
+        initialPower: null
+      },
+      modalHeaderClass: ['p-0', 'border-2'],
+      modalBodyClass: ['border-2']
     };
   },
   methods: {
@@ -56,6 +101,20 @@ export default {
          return "water";
        default:
          return "default";
+     }
+   },
+   getAffinityText: function(affinity) {
+     switch (affinity) {
+       case 1:
+         return "Neutral Wizard";
+       case 2:
+         return "Fire Wizard";
+       case 3:
+         return "Wind Wizard";
+       case 4:
+         return "Water Wizard";
+       default:
+         return "No Affinity";
      }
    },
    getWizardImages: function() {
@@ -114,8 +173,13 @@ export default {
         this.isLoading = false;
       });
     },
-    onWizardIconClicked: function(id) {
-      console.log(this.wizards[id]);
+    onWizardIconClicked: function(img) {
+      var obj = this.wizards[img.id];
+      obj.src = img.src;
+
+      this.modalInfo = obj;
+      console.log(this.modalInfo);
+      this.showModal = true;
     }
   },
   created: function() {
@@ -202,6 +266,14 @@ export default {
   background-image: url(/staticfiles/img/cheese_custom_top.png);
 }
 
+#modal-cheese-melt{
+  background-image: url(/staticfiles/img/melt_bg_grey.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 50px;
+}
+
 .wizard-blocks :hover {
   transform: scale(1.1);
 }
@@ -209,6 +281,7 @@ export default {
 .pointer-cursor {
   cursor: pointer;
 }
+
 
 
 </style>
