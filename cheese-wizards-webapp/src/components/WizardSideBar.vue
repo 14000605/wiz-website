@@ -3,10 +3,13 @@
     <div id = "cheese-top"></div>
     <div id = "sidebar-content">
       <div class = "h5" id = "sidebar-title">Wizards</div>
+      <!--This is the fancy cheese top bar-->
       <div id = "solid-cheese-top"></div>
       <div id = "wizard-content">
         <div v-if = "isLoading" id = "spinner" class = "text-center">
-          <b-spinner variant="secondary" label="Spinning"></b-spinner>
+          <!-- <b-spinner variant="secondary" label="Spinning"></b-spinner> -->
+          <div><img class = "cheese-spinner" src = "/staticfiles/img/cheese_spinner_icon.png" width = "60px" height = "60px"/></div>
+          <small>fetching wizards...</small>
         </div>
         <div id = "empty-state" v-if = "wizardImages.length <= 0 && !isLoading" class = "text-center">
           <small>No Wizards Owned</small>
@@ -19,6 +22,8 @@
           </div>
         </div>
       </div>
+      <!--This is the fancy cheese bottom bar-->
+      <div id = "solid-cheese-bottom"></div>
     </div>
     <!-- Info modal to show when a wizard icon is clicked -->
     <div id = "info-modal">
@@ -30,6 +35,7 @@
         :body-class = "modalBodyClass"
         hide-footer = "true"
         size = "sm"
+        centered
       >
         <template slot = "modal-header">
           <!--Header texture-->
@@ -250,7 +256,9 @@ export default {
 }
 
 #spinner {
-  margin-top: 55%;
+  margin-top: 50%;
+  color: #b3adad;
+  font-size: 0.5em;
 }
 
 #empty-state {
@@ -266,12 +274,25 @@ export default {
   background-image: url(/staticfiles/img/cheese_custom_top.png);
 }
 
+#solid-cheese-bottom {
+  height: 17px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(/staticfiles/img/cheese_custom_bottom.png);
+}
+
 #modal-cheese-melt{
   background-image: url(/staticfiles/img/melt_bg_grey.png);
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
   height: 50px;
+}
+
+.cheese-spinner {
+  -webkit-animation:twinkle 1s linear infinite;
+  -moz-animation:twinkle 1s linear infinite;
+   animation:twinkle 1s linear infinite;
 }
 
 .wizard-blocks :hover {
@@ -282,6 +303,9 @@ export default {
   cursor: pointer;
 }
 
+@-moz-keyframes twinkle { 100% { -moz-transform: scale(0.5);} }
+@-webkit-keyframes twinkle { 100% { -webkit-transform: scale(0.5); } } 
+@keyframes twinkle { 100% { -webkit-transform: scale(0.5);} }
 
 
 </style>
