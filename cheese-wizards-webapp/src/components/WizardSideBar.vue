@@ -3,7 +3,7 @@
     <div id = "cheese-top"></div>
     <div id = "sidebar-content">
       <div class = "h5" id = "sidebar-title">Wizards</div>
-      <hr/>
+      <div id = "solid-cheese-top"></div>
       <div id = "wizard-content">
         <div v-if = "isLoading" id = "spinner" class = "text-center">
           <b-spinner variant="secondary" label="Spinning"></b-spinner>
@@ -11,9 +11,11 @@
         <div id = "empty-state" v-if = "wizardImages.length <= 0 && !isLoading" class = "text-center">
           <small>No Wizards Owned</small>
         </div>
-        <div class = "wizard-blocks pointer-cursor">
-          <div v-for = "img in wizardImages" :key = "img" style = "margin-bottom: 1em;">
-            <img class = "wizard-img" :src = "img" />
+        <div class = "wizard-icon-wrapper" v-for = "img in wizardImages" :key = "img">
+          <div class = "wizard-blocks pointer-cursor" @click="onWizardIconClicked(img.id)">
+            <div style = "margin-bottom: 1em;">
+              <img class = "wizard-img" :src = "img.src" />
+            </div>
           </div>
         </div>
       </div>
@@ -84,7 +86,7 @@ export default {
          filepath = baseImgUrl + affinity + "/" + filename;
        }
 
-       this.wizardImages.push(filepath);
+       this.wizardImages.push({src: filepath, id: i});
      }
    },
    encodeJsonToParams: function(params) {
@@ -119,6 +121,9 @@ export default {
         this.getWizardImages();
         this.isLoading = false;
       });
+    },
+    onWizardIconClicked: function(id) {
+      console.log(this.wizards[id]);
     }
   },
   created: function() {
@@ -153,8 +158,8 @@ export default {
   width: 100%;
   height: 50px;
   background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url(/staticfiles/img/cheese_top.png);
+  background-size: cover;
+  background-image: url(/staticfiles/img/orange_melt.png);
 }
 
 #sidebar-content {
@@ -166,11 +171,6 @@ export default {
    font-family: exocet;
    text-align: center;
    color: white;
-}
-
-hr {
-   border-top: 1px solid #e3e2e1;
-   opacity: 0.7;
 }
 
 .wizard-img {
@@ -200,6 +200,14 @@ hr {
 #empty-state {
   margin-top: 80%;
   color: #959798;
+}
+
+#solid-cheese-top {
+  margin-top: 1em;
+  height: 27px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(/staticfiles/img/cheese_custom_top.png);
 }
 
 .wizard-blocks :hover {
