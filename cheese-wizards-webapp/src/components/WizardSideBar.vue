@@ -1,71 +1,78 @@
 <template>
-  <div id = "wizard-sidebar">
-    <div id = "cheese-top"></div>
-    <div id = "sidebar-content">
-      <div class = "h5" id = "sidebar-title">Wizards</div>
-      <!--This is the fancy cheese top bar-->
-      <div id = "solid-cheese-top"></div>
-      <div id = "wizard-content">
-        <div v-if = "isLoading" id = "spinner" class = "text-center">
-          <!-- <b-spinner variant="secondary" label="Spinning"></b-spinner> -->
-          <div><img class = "cheese-spinner" src = "/staticfiles/img/cheese_spinner_icon.png" width = "60px" height = "60px"/></div>
-          <small>fetching wizards...</small>
-        </div>
-        <div id = "empty-state" v-if = "wizardImages.length <= 0 && !isLoading" class = "text-center">
-          <small>No Wizards Owned</small>
-        </div>
-        <div class = "wizard-icon-wrapper" v-for = "img in wizardImages" :key = "img">
-          <div class = "wizard-blocks pointer-cursor" @click="onWizardIconClicked(img)">
-            <div style = "margin-bottom: 1em;">
-              <img class = "wizard-img" :src = "img.src" />
+  <div id = "sidebar-wrapper">
+    <div id = "cheese-arrow-control" @click="onCheeseArrowClicked">
+      <img id = "cheese-arrow" class = "cheese-arrow-right" src = "/staticfiles/img/cheese_slice.png" />
+    </div>
+   <div id = "wizard-sidebar">
+      <div id = "cheese-top"></div>
+      <div id = "sidebar-content">
+        <div class = "h5" id = "sidebar-title">Wizards</div>
+        <!--This is the fancy cheese top bar-->
+        <div id = "solid-cheese-top"></div>
+        <div id = "wizard-content">
+          <div v-if = "isLoading" id = "spinner" class = "text-center">
+            <!-- <b-spinner variant="secondary" label="Spinning"></b-spinner> -->
+            <div><img class = "cheese-spinner" src = "/staticfiles/img/cheese_spinner_icon.png" width = "60px" height = "60px"/></div>
+            <small>fetching wizards...</small>
+          </div>
+          <div id = "empty-state" v-if = "wizardImages.length <= 0 && !isLoading" class = "text-center">
+            <small>No Wizards Owned</small>
+          </div>
+          <div class = "wizard-icon-wrapper" v-for = "img in wizardImages" :key = "img">
+            <div class = "wizard-blocks pointer-cursor" @click="onWizardIconClicked(img)">
+              <div style = "margin-bottom: 1em;">
+                <img class = "wizard-img" :src = "img.src" />
+              </div>
             </div>
           </div>
         </div>
+        <!--This is the fancy cheese bottom bar-->
+        <div id = "solid-cheese-bottom"></div>
       </div>
-      <!--This is the fancy cheese bottom bar-->
-      <div id = "solid-cheese-bottom"></div>
-    </div>
-    <!-- Info modal to show when a wizard icon is clicked -->
-    <div id = "info-modal">
-      <b-modal
-        v-model="showModal"
-        body-bg-variant = "light"
-        body-text-variant = "dark"
-        :header-class = "modalHeaderClass"
-        :body-class = "modalBodyClass"
-        hide-footer = "true"
-        size = "sm"
-        centered
-      >
-        <template slot = "modal-header">
-          <!--Header texture-->
-          <div id = "modal-cheese-melt"></div>
-        </template>
-        <template slot = "default">
-          <!--Modal body content-->
-          <b-container style = "font-family: code saver;">
-            <b-row>
-              <b-col><img :src = "modalInfo.src" width = "50px" height = "50px"/></b-col>
-              <b-col class = "pt-2"><small>{{ getAffinityText(modalInfo.affinity) }}</small></b-col>
-            </b-row>
-            <hr />
-            <b-row>
-              <b-col><h6>Current Power</h6></b-col>
-              <b-col><small class = "text-success">{{ modalInfo.power }}</small>
-            </b-row>
-            <hr />
-            <b-row>
-              <b-col><h6>Initial Power</h6></b-col>
-              <b-col><small class = "text-success">{{ modalInfo.initialPower }}</small>
-            </b-row>
-          </b-container>
-        </template>
-      </b-modal>
+      <!-- Info modal to show when a wizard icon is clicked -->
+      <div id = "info-modal">
+        <b-modal
+          v-model="showModal"
+          body-bg-variant = "light"
+          body-text-variant = "dark"
+          :header-class = "modalHeaderClass"
+          :body-class = "modalBodyClass"
+          hide-footer = "true"
+          size = "sm"
+          centered
+        >
+          <template slot = "modal-header">
+            <!--Header texture-->
+            <div id = "modal-cheese-melt"></div>
+          </template>
+          <template slot = "default">
+            <!--Modal body content-->
+            <b-container style = "font-family: code saver;">
+              <b-row>
+                <b-col><img :src = "modalInfo.src" width = "50px" height = "50px"/></b-col>
+                <b-col class = "pt-2"><small>{{ getAffinityText(modalInfo.affinity) }}</small></b-col>
+              </b-row>
+              <hr />
+              <b-row>
+                <b-col><h6>Current Power</h6></b-col>
+                <b-col><small class = "text-success">{{ modalInfo.power }}</small>
+              </b-row>
+              <hr />
+              <b-row>
+                <b-col><h6>Initial Power</h6></b-col>
+                <b-col><small class = "text-success">{{ modalInfo.initialPower }}</small>
+              </b-row>
+            </b-container>
+          </template>
+        </b-modal>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Velocity from 'velocity-animate'
+var slideDirection = -1;
 var wizardNames = [
   "wizard_angry",
    "wizard_angry_smile",
@@ -91,11 +98,22 @@ export default {
         initialPower: null
       },
       modalHeaderClass: ['p-0', 'border-2'],
-      modalBodyClass: ['border-2']
+      modalBodyClass: ['border-2'],
+      slide: true
     };
   },
   methods: {
-   resolveAffinity: function(affinity) {
+    onCheeseArrowClicked: function(){
+      // slide sidebar
+      var direction = ($('#sidebar-wrapper').width() * slideDirection) + 25;
+      if (direction > 0) {
+         direction = 0;
+      }
+      Velocity($('#sidebar-wrapper'), {'translateX' : direction + "px"});
+      slideDirection = slideDirection * -1;
+
+    },
+    resolveAffinity: function(affinity) {
      switch (affinity) {
        case 1:
          return "neutral";
@@ -207,6 +225,12 @@ export default {
   src: url(/staticfiles/font/codesaver-regular-webfont.woff);
 }
 
+#sidebar-wrapper {
+  height: 100vh;
+  width: 200px;
+  position: absolute;
+}
+
 #wizard-sidebar {
   height: 100vh;
   overflow-y: scroll;
@@ -214,6 +238,8 @@ export default {
   background-color: #2d2d2d;
   z-index: 100;
   border-right: 1px solid rgba(250, 250, 250, 0.5);
+  position: absolute;
+  top: 0;
 }
 
 #cheese-top {
@@ -301,6 +327,19 @@ export default {
 
 .pointer-cursor {
   cursor: pointer;
+}
+
+#cheese-arrow-control {
+  position: relative;
+  z-index: 101;
+  top: 40vh;
+  transform: scale(0.3);
+  left: 44%;
+  cursor: pointer;
+}
+
+#cheese-arrow-control :hover {
+  transform: scale(1.1);
 }
 
 @-moz-keyframes twinkle { 100% { -moz-transform: scale(0.5);} }
