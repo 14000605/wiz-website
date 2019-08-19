@@ -28,6 +28,16 @@
         </div>
         <!--This is the fancy cheese bottom bar-->
         <div id = "solid-cheese-bottom"></div>
+        <!--Filter options-->
+        <div id = "filter-options">
+          <b-form-group>
+            <b-form-checkbox-group class = "mt-4" v-model = "filterOptions" stacked buttons>
+              <b-form-checkbox class = "mb-2 dark-grey" value = "Energy Transfers">Energy Transfers</b-form-checkbox>
+              <b-form-checkbox class = "mb-2 dark-grey" value = "Duals">Duals</b-form-checkbox>
+              <b-form-checkbox class = "mb-2 dark-grey" value = "Ascentions">Ascentions</b-form-checkbox>
+            </b-form-checkbox-group>
+          </b-form-group>
+        </div>
       </div>
       <!-- Info modal to show when a wizard icon is clicked -->
       <div id = "info-modal">
@@ -99,33 +109,38 @@ export default {
       },
       modalHeaderClass: ['p-0', 'border-2'],
       modalBodyClass: ['border-2'],
-      isActive: false
+      isActive: false,
+      filterOptions: []
     };
   },
   methods: {
     onCheeseArrowClicked: function(){
+      // set target to sidebar and cheese arrow control position/rotation
       var direction = $('#sidebar-wrapper').width() - 35;
       var degrees = 180;
-
+      
+      // set target to initial position/rotation
       if (slideDirection < 0) {
         direction = 0;
         degrees = 0;
       }
-
+      
+      // slide sidebar
       Velocity($('#sidebar-wrapper'), {'translateX' : direction + "px"});
       slideDirection = slideDirection * -1;
 
+      // change cheese arrow control direction
       Velocity($('#cheese-arrow'), {
-        'rotateZ': degrees+ "deg" 
+        'rotateZ': degrees + "deg" 
       });
 
-      // Load wizard data if not already loaded
+      // Load wizard data if not already loaded (Lazy)
       if (!this.isActive) {
           this.isActive = true;
           this.fetchAndRenderWizards({'owner' : this.userAddress});
       }
-
     },
+    // get affinity directory names from integer values
     resolveAffinity: function(affinity) {
      switch (affinity) {
        case 1:
@@ -140,6 +155,7 @@ export default {
          return "default";
      }
    },
+   // get formatted text to display from affinity integer values
    getAffinityText: function(affinity) {
      switch (affinity) {
        case 1:
@@ -154,6 +170,7 @@ export default {
          return "No Affinity";
      }
    },
+   // Choose random image for wizard based on provided affinity
    getWizardImages: function() {
      var baseImgUrl = "/staticfiles/img/wizards/";
      var names = wizardNames;
@@ -187,7 +204,7 @@ export default {
       }
       return urlQuery;
     },
-    // Geeneral purpose function to fetch wizard data based on given params
+    // fetch wizards from endpoint and get corresponding image paths when finished
     fetchAndRenderWizards: function(params) {
       var queryParams = this.encodeJsonToParams(params);
       var requestUrl = "/wizards?" + queryParams;
@@ -222,7 +239,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @font-face {
   font-family: exocet;
@@ -280,6 +296,10 @@ export default {
   margin: 0 auto;
   transition: transform .6s;
 } 
+
+.dark-grey {
+  background-color: #35393c;
+}
 
 #wizard-content {
   overflow-y: scroll;
