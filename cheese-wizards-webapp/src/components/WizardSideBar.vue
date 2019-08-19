@@ -31,7 +31,7 @@
         <!--Filter options-->
         <div id = "filter-options">
           <b-form-group>
-            <b-form-checkbox-group class = "mt-4" v-model = "filterOptions" stacked buttons>
+            <b-form-checkbox-group class = "mt-4" v-model = "filterOptions" @change = "onFilterOptionsChanged($event)" stacked buttons>
               <b-form-checkbox class = "mb-2 dark-grey" value = "Energy Transfers">Energy Transfers</b-form-checkbox>
               <b-form-checkbox class = "mb-2 dark-grey" value = "Duals">Duals</b-form-checkbox>
               <b-form-checkbox class = "mb-2 dark-grey" value = "Ascentions">Ascentions</b-form-checkbox>
@@ -114,6 +114,20 @@ export default {
     };
   },
   methods: {
+    // Triggered on any filter option selected or deselected
+    // Emits an event 'filterOptionsChanged' that the parent component can listen to
+    onFilterOptionsChanged: function(event) {
+      // Just cleaning up recieved data from event before sending it
+      var selected = [];
+      for (var i = 0; i < event.length; i++) {
+        selected.push(event[i]);
+      }
+      console.log("filters: " + selected);
+      // Perhaps we should only register a change if there are any filters selected
+      if (selected.length > 0) {
+        this.$emit("filterOptionsChanged", selected);
+      }
+    },
     onCheeseArrowClicked: function(){
       // set target to sidebar and cheese arrow control position/rotation
       var direction = $('#sidebar-wrapper').width() - 35;

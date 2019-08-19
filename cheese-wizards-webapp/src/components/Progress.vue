@@ -1,6 +1,10 @@
 <template>
   <div id="progress">
-    <WizardSideBar :userAddress = "userAddress"></WizardSideBar>
+    <WizardSideBar 
+      :userAddress = "userAddress" 
+      v-on:filterOptionsChanged = "filtersChanged"
+    >
+    </WizardSideBar>
   </div>
 </template>
 
@@ -14,6 +18,11 @@ export default {
       userAddress: null,
       wizards: []
     };
+  },
+  methods: {
+    filtersChanged: function(options) {
+      console.log("Detected change in filter options: " + options);
+    }
   },
   created: function(){
     var address = this.$route.params.address;
