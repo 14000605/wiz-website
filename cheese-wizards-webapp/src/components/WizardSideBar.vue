@@ -72,7 +72,7 @@
 
 <script>
 import Velocity from 'velocity-animate'
-var slideDirection = -1;
+var slideDirection = 1;
 var wizardNames = [
   "wizard_angry",
    "wizard_angry_smile",
@@ -99,18 +99,31 @@ export default {
       },
       modalHeaderClass: ['p-0', 'border-2'],
       modalBodyClass: ['border-2'],
-      slide: true
+      isActive: false
     };
   },
   methods: {
     onCheeseArrowClicked: function(){
-      // slide sidebar
-      var direction = ($('#sidebar-wrapper').width() * slideDirection) + 25;
-      if (direction > 0) {
-         direction = 0;
+      var direction = $('#sidebar-wrapper').width() - 35;
+      var degrees = 180;
+
+      if (slideDirection < 0) {
+        direction = 0;
+        degrees = 0;
       }
+
       Velocity($('#sidebar-wrapper'), {'translateX' : direction + "px"});
       slideDirection = slideDirection * -1;
+
+      Velocity($('#cheese-arrow'), {
+        'rotateZ': degrees+ "deg" 
+      });
+
+      // Load wizard data if not already loaded
+      if (!this.isActive) {
+          this.isActive = true;
+          this.fetchAndRenderWizards({'owner' : this.userAddress});
+      }
 
     },
     resolveAffinity: function(affinity) {
@@ -205,10 +218,6 @@ export default {
       console.log(this.modalInfo);
       this.showModal = true;
     }
-  },
-  created: function() {
-    this.fetchAndRenderWizards({'owner' : this.userAddress});
-
   }
 };
 </script>
@@ -229,6 +238,7 @@ export default {
   height: 100vh;
   width: 200px;
   position: absolute;
+  left: -165px;
 }
 
 #wizard-sidebar {
