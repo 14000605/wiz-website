@@ -1,6 +1,6 @@
 <template>
   <div id = "sidebar-wrapper">
-    <div id = "cheese-arrow-control" @click="onCheeseArrowClicked">
+    <div id = "cheese-arrow-control" @click="onCheeseArrowClicked" v-b-tooltip.hover.v-warning :title = "toolTip.arrowControl">
       <img id = "cheese-arrow" class = "cheese-arrow-right" src = "/staticfiles/img/cheese_slice.png" />
     </div>
    <div id = "wizard-sidebar">
@@ -31,7 +31,15 @@
         <!--Filter options-->
         <div id = "filter-options">
           <b-form-group>
-            <b-form-checkbox-group class = "mt-4" v-model = "filterOptions" @change = "onFilterOptionsChanged($event)" stacked buttons>
+            <b-form-checkbox-group 
+              class = "mt-4" 
+              v-model = "filterOptions" 
+              @change = "onFilterOptionsChanged($event)" 
+              offset = "200"
+              :disabled = "wizards.length <= 0"
+              stacked 
+              buttons
+            >
               <b-form-checkbox class = "mb-2 dark-grey" value = "Energy Transfers">Energy Transfers</b-form-checkbox>
               <b-form-checkbox class = "mb-2 dark-grey" value = "Duals">Duals</b-form-checkbox>
               <b-form-checkbox class = "mb-2 dark-grey" value = "Ascentions">Ascentions</b-form-checkbox>
@@ -110,7 +118,11 @@ export default {
       modalHeaderClass: ['p-0', 'border-2'],
       modalBodyClass: ['border-2'],
       isActive: false,
-      filterOptions: []
+      filterOptions: [],
+      toolTip: {
+        arrowControl: "toggle sidebar",
+        filterOptions: "choose one or more filters to generate suggestions."
+      }
     };
   },
   methods: {
@@ -133,10 +145,12 @@ export default {
       var direction = $('#sidebar-wrapper').width() - 35;
       var degrees = 180;
       
+      this.$set(this.toolTip, "arrowControl", "hide sidebar");
       // set target to initial position/rotation
       if (slideDirection < 0) {
         direction = 0;
         degrees = 0;
+        this.$set(this.toolTip, "arrowControl", "toggle sidebar");
       }
       
       // slide sidebar
@@ -232,6 +246,10 @@ export default {
           for (var i = 0; i < wizards.length; i++) {
             this.wizards.push(wizards[i]);
           }
+          if (this.wizards.length <= 0) {
+            var tooltipMsg = `filters are currently disabled.`
+            this.$set(this.toolTip, "filterOptions", tooltipMsg);
+          }
         },
         error: function(err) {
           console.log(err);
@@ -264,6 +282,10 @@ export default {
   src: url(/staticfiles/font/codesaver-regular-webfont.woff);
 }
 
+.custom-tooltip {
+  font-size: 0.5em;
+}
+
 #sidebar-wrapper {
   height: 100vh;
   width: 200px;
@@ -289,6 +311,10 @@ export default {
   background-size: cover;
   background-image: url(/staticfiles/img/orange_melt.png);
 }
+
+/* #cheese-top :hover {
+   background-image: url(/staticfiles/img/orange_melt_warped.png); 
+} */
 
 #sidebar-content {
   margin-left: 0.5em;
