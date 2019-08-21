@@ -20,4 +20,5 @@ from django.urls import path
 urlpatterns = [
     path('', views.index, name = "home"),
     path('wizards', views.get_wizards, name = "get_wizards"),
+    path('wizards/<int:id>', views.get_wizards_by_id, name = "search_by_id"),
 ]

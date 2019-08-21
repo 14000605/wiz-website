@@ -1,27 +1,50 @@
+import requests
+from requests.exceptions import HTTPError
+from json.decoder import JSONDecodeError
+
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-import requests
 
 from app.utils import *
+
+x_email = "khalili@sfu.ca"
+api_Token = "Nf7zvG9vaYOW6cx1ZXXT0_9DPr1srXzZ7phJ3il7"
+content_type = "application/json"
+
+headers = {
+    'Content-Type' : content_type,
+    'x-email' : x_email,
+    'x-api-token' : api_Token
+}
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
 def get_wizards(request):
-    x_email = "khalili@sfu.ca"
-    api_Token = "Nf7zvG9vaYOW6cx1ZXXT0_9DPr1srXzZ7phJ3il7"
-    content_type = "application/json"
+    params = request.GET.dict()
+    res = requests.get(
+            BASE_ENDPOINT_URL_WIZARD,
+            headers=headers,
+            params=params,
+    )
+    try:
+        res.raise_for_status()
+        response = res.json()
+    except (HTTPError, JSONDecodeError):
+        response = {'error': 'bad API call'}
 
-    headers = {
-        'Content-Type' : content_type,
-         'x-email' : x_email,
-         'x-api-token' : api_Token
-    }
+    return JsonResponse(response)
 
-    params = request.GET
-    query_str = construct_query_from_dict(params)
 
-    get_wizards_url = BASE_ENDPOINT_URL + "wizards?" + query_str
+def get_wizards_by_id(request, id):
+    get_wizards_url = BASE_ENDPOINT_URL_WIZARD + "/" + str(id)
     res = requests.get(get_wizards_url, headers = headers)
+    try:
+        res.raise_for_status()
+        response = res.json()
+        response = {'wizards' : [response]}
+    except (HTTPError, JSONDecodeError):
+        response = {'error': 'bad API call'}
 
-    return JsonResponse(res.json())
+    return JsonResponse(response)
+    
