@@ -10,7 +10,7 @@
         <!--This is the fancy cheese top bar-->
         <div id = "solid-cheese-top"></div>
         <div id = "wizard-content">
-          <div v-if = "isLoading" id = "spinner" class = "text-center">
+          <div v-if = "isLoading" id = "wizard-content-spinner" class = "text-center">
             <!-- <b-spinner variant="secondary" label="Spinning"></b-spinner> -->
             <div><img class = "cheese-spinner" src = "/staticfiles/img/cheese_spinner_icon.png" width = "60px" height = "60px"/></div>
             <small>fetching wizards...</small>
@@ -65,7 +65,11 @@
           </template>
           <template slot = "default">
             <!--Modal body content-->
-            <b-container style = "font-family: code saver;">
+             <div v-if = "isModalLoading" id = "modal-content-spinner" class = "text-center">
+              <div><img class = "cheese-spinner" src = "/staticfiles/img/cheese_spinner_icon.png" width = "60px" height = "60px"/></div>
+              <small>fetching wizard data...</small>
+            </div>
+            <b-container v-if = "!isModalLoading" style = "font-family: code saver;">
               <b-row>
                 <b-col><img :src = "modalInfo.src" width = "50px" height = "50px"/></b-col>
                 <b-col class = "pt-2"><small>{{ getAffinityText(modalInfo.affinity) }}</small></b-col>
@@ -108,6 +112,7 @@ export default {
       wizards: [],
       wizardImages: [],
       isLoading: true,
+      isModalLoading: true,
       showModal: false,
       modalInfo: {
         src: null,
@@ -165,7 +170,15 @@ export default {
       // Load wizard data if not already loaded (Lazy)
       if (!this.isActive) {
           this.isActive = true;
-          this.fetchAndRenderWizards({'owner' : this.userAddress});
+          this.fetchWizards({'owner' : this.userAddress}, (wizards)=>{
+            if (wizards == null) {
+              console.log("error occurred while fetching wizards");
+            } else {
+              this.wizards = wizards;
+              this.getWizardImages();
+              this.isLoading = false;
+            }
+          });
       }
     },
     // get affinity directory names from integer values
@@ -232,40 +245,52 @@ export default {
       }
       return urlQuery;
     },
-    // fetch wizards from endpoint and get corresponding image paths when finished
-    fetchAndRenderWizards: function(params) {
-      var queryParams = this.encodeJsonToParams(params);
-      var requestUrl = "/wizards?" + queryParams;
+    onWizardIconClicked: function(img) {
+      this.isModalLoading = true;
+      var id = this.wizards[img.id].id;
+      console.log("clicked on wizard with id: " + id);
+      
+      this.showModal = true;
+      this.fetchWizards({'id' : id}, (wizards)=>{
+        if (wizards == null) {
+          console.log("an error has occurred while fetching wizard with id " + id);
+        } else {
+          var wizard = wizards[0];
+          wizard['src'] = img.src;
+          this.modalInfo = wizard;
+          this.isModalLoading = false;
+        }
+    });
+  },
+  // The callback function must take one argument - that is the data fetched
+  // If data passed is null, an error has occurred
+  fetchWizards: function(params, callback) {
+      var requestUrl = "";
+
+      if (params['id'] != undefined) {
+        requestUrl = "/wizards/" + params['id'];
+      } else {
+        var queryParams = this.encodeJsonToParams(params);
+        requestUrl = "/wizards?" + queryParams;
+      }
+      // This will store data fetched and pass it into the callback as an argument
+      var intermediate = [];
 
       $.ajax({
         url: requestUrl,
         method: "get",
         success: (data) => {
-          // TODO: do something with wizards data
-          var wizards = data.wizards;
-          for (var i = 0; i < wizards.length; i++) {
-            this.wizards.push(wizards[i]);
-          }
-          if (this.wizards.length <= 0) {
-            var tooltipMsg = `filters are currently disabled.`
-            this.$set(this.toolTip, "filterOptions", tooltipMsg);
-          }
+          intermediate = data.wizards;
+          console.log("succesfully fetched wizard data");
         },
         error: function(err) {
+          intermediate = null;
           console.log(err);
         }
       }).done(()=>{
-        this.getWizardImages();
-        this.isLoading = false;
+        console.log(intermediate);
+        callback(intermediate);
       });
-    },
-    onWizardIconClicked: function(img) {
-      var obj = this.wizards[img.id];
-      obj.src = img.src;
-
-      this.modalInfo = obj;
-      console.log(this.modalInfo);
-      this.showModal = true;
     }
   }
 };
@@ -351,8 +376,13 @@ export default {
   padding-top: 1em;
 }
 
-#spinner {
+#wizard-content-spinner {
   margin-top: 50%;
+  color: #b3adad;
+  font-size: 0.5em;
+}
+
+#modal-content-spinner {
   color: #b3adad;
   font-size: 0.5em;
 }
